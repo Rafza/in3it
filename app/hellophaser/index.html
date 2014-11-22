@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>hello phaser!</title>
+        <script src="phaser.min.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    window.onload = function() {
+
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+        function preload () {
+
+            game.load.image('sprite', 'dog-left.png');
+            game.load.image('cloud', 'cloud.png');
+
+        }
+
+        var sprite;
+        var cloud;
+
+        var upKey;
+        var downKey;
+        var leftKey;
+        var rightKey;
+
+        var a;
+
+        var time = 0;
+        var position = 0;
+
+        function create () {
+
+            game.stage.backgroundColor = '#736357';
+
+            cloud = game.add.sprite(15, 10, 'cloud');
+            cloud3 = game.add.sprite(350, 10, 'cloud');
+            cloud2 = game.add.sprite(175, 10, 'cloud');
+
+            sprite = game.add.sprite(300, 300, 'sprite');
+            sprite2 = game.add.sprite(500, 100, 'sprite');
+            sprite3 = game.add.sprite(300, 300, 'sprite');
+            a = [sprite, sprite2, sprite3];
+
+            //  In this example we'll create 4 specific keys (up, down, left, right) and monitor them in our update function
+
+            upKey = game.input.keyboard.addKey(Phaser.Keyboard.UP);
+            downKey = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+            leftKey = game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+            rightKey = game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+
+            //startBounceTween();
+
+        }
+
+        function startBounceTween() {
+
+            //sprite.y = 0;
+
+            var bounce=game.add.tween(sprite);
+
+            bounce.to({ y: 20, x: 20}, 1000 + Math.random() * 10000, Phaser.Easing.Bounce.In);
+            bounce.onComplete.add(startBounceTween, this);
+            bounce.start();
+
+        }
+
+        function update() {
+
+
+            // if (upKey.isDown)
+            // {
+            //     sprite.y-=20;
+            // }
+            // else if (downKey.isDown)
+            // {
+            //     sprite.y+=20;
+            // }
+
+            // if (leftKey.isDown)
+            // {
+            //     sprite.x-=20;
+            // }
+            // else if (rightKey.isDown)
+            // {
+            //     sprite.x+=20;
+            // }
+
+            if( time == 100 )
+            {
+                cloud.x = Math.random() * 40;
+            }
+            if( time == 50 )
+            {
+                cloud2.x = 200 + Math.random() * 40;
+            }
+            if( time == 150 )
+            {
+                time = 0;
+                cloud3.x = 350 + Math.random() * 40;
+            }
+
+            time++;
+
+            for(var i = 0; i < a.length; i++)
+            {
+                a[i].y+=20;
+
+                if ( a[i].y < 0 )
+                {
+                    a[i].y = 70 + Math.random()*550;
+                    a[i].x = Math.random()*800;
+                }
+
+                if (a[i].y > 600 - a[i].height)
+                {
+                    a[i].y = 70 + Math.random()*550;
+                    a[i].x = Math.random()*800;
+                }
+
+                if (a[i].x > 800 - a[i].height)
+                {
+                    a[i].y = Math.random()*600;
+                    a[i].x = Math.random()*800;
+                }
+
+                if (a[i].x < 0 )
+                {
+                    a[i].y = Math.random()*600;
+                    a[i].x = Math.random()*800;
+                }
+
+                // sprite.y = Math.random()*600;
+                // sprite.x = Math.random()*800;
+            }
+        }
+
+    };
+
+    </script>
+
+    </body>
+</html>
